@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / C extensions
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Conda environment files
+pdm_rag_env/
+/pdm_rag_env/
+
+# Vector Database
+db/
+/db/
+
+# IDE / OS specific
+.vscode/
+.idea/
+.DS_Store
+
+# Tests
+.pytest_cache/

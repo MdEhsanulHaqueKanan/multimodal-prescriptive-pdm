@@ -1,0 +1,61 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+    <header style="text-align: center; margin-bottom: 2rem;">
+        <h1>Predictive Maintenance Dashboard</h1>
+        <p>Monitoring RUL and Fault Status for Evolving Industrial Systems</p>
+    </header>
+
+    <section>
+        <article>
+            <header><strong>Fleet-Wide Recurring Topics</strong></header>
+            {% if topics %}
+                <p>Common themes discovered from recent maintenance logs:</p>
+                <div class="topics-container">
+                    {% for topic in topics %}
+                        <div class="topic-card">
+                            <strong>Topic #{{ topic.topic_id + 1 }}</strong>
+                            <ul>
+                                {% for keyword in topic.keywords %}
+                                    <li>{{ keyword }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No topic data available. Run `scripts/05_generate_topics.py`.</p>
+            {% endif %}
+        </article>
+    </section>
+    
+    <hr>
+
+    <header style="text-align: center; margin-top: 2rem;">
+        <h2>Critical Assets Overview</h2>
+    </header>
+
+    {% if assets %}
+        <div class="grid">
+            {% for asset in assets %}
+                <article class="asset-card {{ asset.status_class }}">
+                    <header><strong>{{ asset.id }}</strong></header>
+                    <p>
+                        <span class="status-indicator {{ asset.status_class.replace('border', 'status') }}"></span>
+                        <strong>Status:</strong> {{ asset.status_text }}
+                    </p>
+                    {% if asset.type == 'rul' %}
+                        <p><strong>Predicted RUL:</strong> {{ asset.prediction.predicted_rul }} cycles</p>
+                    {% elif asset.type == 'classification' %}
+                        <p><strong>Predicted Fault:</strong> {{ asset.prediction.predicted_fault }}</p>
+                        <p><strong>Confidence:</strong> {{ (asset.prediction.confidence * 100) | round }}%</p>
+                    {% endif %}
+                    <footer>
+                        <a href="{{ url_for('asset_detail', asset_id=asset.id) }}" role="button" class="contrast">View Details</a>
+                    </footer>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <article><p>No asset data is currently available to display.</p></article>
+    {% endif %}
+{% endblock %}

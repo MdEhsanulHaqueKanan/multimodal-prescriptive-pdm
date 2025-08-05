@@ -1,0 +1,156 @@
+/* Custom styles for our PDM Dashboard */
+
+:root {
+    --status-green: #28a745;
+    --status-yellow: #ffc107;
+    --status-orange: #fd7e14;
+    --status-red: #dc3545;
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+.status-green { background-color: var(--status-green); }
+.status-yellow { background-color: var(--status-yellow); }
+.status-orange { background-color: var(--status-orange); }
+.status-red { background-color: var(--status-red); }
+
+.asset-card {
+    border-left: 5px solid var(--pico-card-border-color);
+    transition: all 0.2s ease-in-out;
+    height: 100%; 
+    display: flex;
+    flex-direction: column; 
+}
+
+.asset-card footer {
+    margin-top: auto; 
+    padding-top: 1rem;
+}
+
+.asset-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--pico-card-box-shadow);
+}
+
+.border-green { border-left-color: var(--status-green); }
+.border-yellow { border-left-color: var(--status-yellow); }
+.border-orange { border-left-color: var(--status-orange); }
+.border-red { border-left-color: var(--status-red); }
+
+h2 .pico-icon {
+    vertical-align: sub;
+    margin-right: 0.5rem;
+}
+
+/* =================================== */
+/* === Topic Modeling Widget Styles === */
+/* =================================== */
+.topics-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 1rem;
+}
+
+.topic-card {
+    flex: 1;
+    min-width: 150px;
+    padding: 1rem;
+    border: 1px solid var(--pico-card-border-color);
+    border-radius: var(--pico-card-border-radius);
+    background-color: #f7f7f7;
+}
+
+.topic-card ul {
+    margin: 0.5rem 0 0 0;
+    padding-left: 1.2rem;
+}
+
+/* =================================== */
+/* === Chat Assistant Final Styles === */
+/* =================================== */
+
+#chat-history {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.chat-message {
+  padding: 10px 15px;
+  border-radius: 15px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.user-message p {
+  color: white; /* Apply the color directly to the paragraph inside */
+}
+
+.user-message {
+  background-color: #005A9E; /* A better, more professional blue */
+  align-self: flex-end;
+  border-bottom-right-radius: 0;
+}
+
+.ai-message {
+  background-color: #e9ecef;
+  color: #333;
+  align-self: flex-start;
+  border-bottom-left-radius: 0;
+}
+
+.loading-message {
+    font-style: italic;
+    color: #888;
+}
+
+#chat-input {
+    width: 100%;
+    resize: none;
+    overflow-y: hidden;
+    line-height: 1.5;
+    min-height: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+#send-chat-btn {
+    width: 120px;
+}
+
+/* --- HITL Feedback Button Styling --- */
+.feedback-container {
+    margin-top: 8px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.feedback-btn {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    line-height: 1;
+    padding: 0;
+}
+
+.feedback-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.feedback-btn:disabled {
+    background-color: #e9ecef;
+    cursor: default;
+    opacity: 0.5;
+}
