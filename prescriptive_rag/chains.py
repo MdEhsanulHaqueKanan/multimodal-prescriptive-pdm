@@ -12,10 +12,7 @@ import app_config as config
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def create_rag_chain():
-    embedding_model = HuggingFaceEmbeddings(
-        model_name="all-MiniLM-L6-v2",
-        cache_folder='/tmp/sentencetransformers' # Use a writable directory
-    )
+    embedding_model = HuggingFaceEmbeddings(model_name="./embedding_model")
     vector_store = Chroma(persist_directory=config.DB_PATH, embedding_function=embedding_model)
     retriever = vector_store.as_retriever(search_kwargs={"k": 3})
 

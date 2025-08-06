@@ -30,10 +30,7 @@ def split_documents(documents, chunk_size=1000, chunk_overlap=200):
     return text_splitter.split_documents(documents)
 
 def build_and_save_vector_store(chunks, db_path):
-    embedding_model = HuggingFaceEmbeddings(
-        model_name="all-MiniLM-L6-v2",
-        cache_folder='/tmp/sentencetransformers' # Use a writable directory
-    )
+    embedding_model = HuggingFaceEmbeddings(model_name="./embedding_model")
     Chroma.from_documents(documents=chunks, embedding=embedding_model, persist_directory=str(db_path))
 
 def run_ingestion_if_needed():
