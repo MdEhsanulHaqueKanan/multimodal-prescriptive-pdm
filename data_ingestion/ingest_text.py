@@ -30,19 +30,25 @@ def split_documents(documents, chunk_size=1000, chunk_overlap=200):
     return text_splitter.split_documents(documents)
 
 def build_and_save_vector_store(chunks, db_path):
+    # This function now correctly expects a string for db_path
     embedding_model = HuggingFaceEmbeddings(model_name="./embedding_model")
-    Chroma.from_documents(documents=chunks, embedding=embedding_model, persist_directory=str(db_path))
+    Chroma.from_documents(documents=chunks, embedding=embedding_model, persist_directory=db_path)
 
 def run_ingestion_if_needed():
-    if os.path.exists(config.DB_PATH):
-        logging.info(f"Vector store found at {config.DB_PATH}. Skipping ingestion.")
+    # Convert the Path object to a string here for all downstream use
+    db_path_str = str(config.DB_PATH)
+    
+    if os.path.exists(db_path_str):
+        logging.info(f"Vector store found at {db_path_str}. Skipping ingestion.")
         return
+        
     logging.info("Vector store not found. Starting data ingestion process...")
     try:
         loaded_docs = load_knowledge_base_documents()
         if loaded_docs:
             doc_chunks = split_documents(loaded_docs)
-            build_and_save_vector_store(chunks=doc_chunks, db_path=config.DB_PATH)
+            # Pass the string path to the function
+            build_and_save_vector_store(chunks=doc_chunks, db_path=db_path_str)
             logging.info("--- Knowledge base ingestion complete. ---")
     except Exception as e:
         logging.error(f"Error during initial data ingestion: {e}", exc_info=True)

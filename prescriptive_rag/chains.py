@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 def create_rag_chain():
     embedding_model = HuggingFaceEmbeddings(model_name="./embedding_model")
-    vector_store = Chroma(persist_directory=config.DB_PATH, embedding_function=embedding_model)
+    vector_store = Chroma(persist_directory=str(config.DB_PATH), embedding_function=embedding_model)
     retriever = vector_store.as_retriever(search_kwargs={"k": 3})
 
     deployment_platform = os.getenv("DEPLOYMENT_PLATFORM", "local")
