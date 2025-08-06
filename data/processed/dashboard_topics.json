@@ -1,0 +1,32 @@
+[
+    {
+        "topic_id": 0,
+        "keywords": [
+            "returned",
+            "replaced",
+            "level",
+            "normal",
+            "vibration"
+        ]
+    },
+    {
+        "topic_id": 1,
+        "keywords": [
+            "present",
+            "vibration",
+            "normal",
+            "replaced",
+            "returned"
+        ]
+    },
+    {
+        "topic_id": 2,
+        "keywords": [
+            "asset",
+            "vibration",
+            "present",
+            "replaced",
+            "returned"
+        ]
+    }
+]

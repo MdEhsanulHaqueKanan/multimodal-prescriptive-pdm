@@ -1,0 +1,5 @@
+log_id,asset_id,timestamp,technician_name,notes
+101,unit_17,2025-07-15 10:30:00,"Alice","Replaced main bearing assembly as per RUL prediction. Followed manual section 3.4. Post-maintenance test run shows vibration levels are back to normal. Asset returned to service."
+102,unit_34,2025-07-18 14:00:00,"Bob","High vibration detected. Fault code P0300 present. Initial inspection found no obvious mechanical faults. Suspecting fuel pressure issue, but couldn't confirm. Scheduled for further diagnostics tomorrow. Asset is currently offline."
+103,unit_17,2025-07-21 09:00:00,"Alice","Performed routine lubrication. Noticed a faint, high-pitched noise on startup that was not present before. Vibration and temperature are normal. Recommend monitoring audio sensor data closely over the next 50 cycles."
+104,unit_22,2025-07-22 11:45:00,"Charlie","Customer reported power loss. Found a significant vacuum leak in the intake manifold. Replaced the gasket and sealed the connection. Power levels returned to normal. Total downtime: 3 hours."
