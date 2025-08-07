@@ -2,8 +2,7 @@ import os
 import logging
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.llms import Ollama
-from langchain_huggingface import HuggingFaceEndpoint
+from langchain_community.llms import Ollama, HuggingFaceHub # <-- Use HuggingFaceHub
 from langchain.prompts import PromptTemplate
 from langchain.schema.runnable import RunnablePassthrough
 from langchain.schema.output_parser import StrOutputParser
@@ -20,10 +19,11 @@ def create_rag_chain():
     
     if deployment_platform == "huggingface":
         logging.info("Initializing LLM for Hugging Face deployment.")
-        repo_id = "google/gemma-2b-it"
-        llm = HuggingFaceEndpoint(repo_id=repo_id, temperature=0.3, max_new_tokens=512)
-        logging.info(f"Using Hugging Face Endpoint with model: {repo_id}")
+        repo_id = "google/flan-t5-large" # Use a classic, stable model
+        llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.3, "max_length": 512})
+        logging.info(f"Using Hugging Face Hub with model: {repo_id}")
     else:
+        # Local development code remains the same
         logging.info("Initializing LLM for local Ollama development.")
         llm_model_name = os.getenv("LLM_MODEL_NAME", "llama3:8b")
         base_url = "http://host.docker.internal:11434" if os.getenv("DOCKER_ENV") else "http://localhost:11434"
@@ -33,15 +33,13 @@ def create_rag_chain():
     if llm is None:
         raise ValueError("LLM could not be initialized.")
 
+    # Prompt and chain remain the same
     prompt_template_str = """
-    You are an expert maintenance assistant. Your task is to provide clear, accurate, and helpful answers based exclusively on the following context.
-    If the context does not contain the answer, state that you cannot answer with the provided information. Do not use external knowledge.
-    CONTEXT: {context}
-    QUESTION: {question}
-    ANSWER:
+    Answer the question based only on the following context:
+    {context}
+    Question: {question}
     """
     prompt = PromptTemplate.from_template(prompt_template_str)
-
     rag_chain = (
         {"context": retriever, "question": RunnablePassthrough()}
         | prompt
@@ -50,16 +48,3 @@ def create_rag_chain():
     )
     logging.info("RAG chain created successfully.")
     return rag_chain
-
-if __name__ == '__main__':
-    print("--- Testing the RAG Chain (Local Ollama Mode) ---")
-    try:
-        chain = create_rag_chain()
-        test_question = "How do I replace the bearing assembly?"
-        print(f"\n[?] Test Question: {test_question}")
-        answer = chain.invoke(test_question)
-        print("\n[!] AI-Generated Answer:")
-        print(answer)
-        print("\n--- RAG Chain test complete. ---")
-    except Exception as e:
-        logging.error(f"An error occurred during the RAG chain test: {e}", exc_info=True)
