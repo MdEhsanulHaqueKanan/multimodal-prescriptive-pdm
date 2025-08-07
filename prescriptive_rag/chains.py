@@ -2,7 +2,8 @@ import os
 import logging
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.llms import Ollama, HuggingFaceHub # <-- Use HuggingFaceHub
+from langchain_community.llms import Ollama
+from langchain_huggingface import HuggingFaceEndpoint # Use the modern class
 from langchain.prompts import PromptTemplate
 from langchain.schema.runnable import RunnablePassthrough
 from langchain.schema.output_parser import StrOutputParser
@@ -20,8 +21,12 @@ def create_rag_chain():
     if deployment_platform == "huggingface":
         logging.info("Initializing LLM for Hugging Face deployment.")
         repo_id = "google/flan-t5-large" # Use a classic, stable model
-        llm = HuggingFaceHub(repo_id=repo_id, task="text2text-generation", model_kwargs={"temperature": 0.3, "max_length": 512})
-        logging.info(f"Using Hugging Face Hub with model: {repo_id}")
+        llm = HuggingFaceEndpoint(
+            repo_id=repo_id, 
+            task="text2text-generation",
+            model_kwargs={"max_new_tokens": 512}
+        )
+        logging.info(f"Using Hugging Face Endpoint with model: {repo_id}")
     else:
         # Local development code remains the same
         logging.info("Initializing LLM for local Ollama development.")
