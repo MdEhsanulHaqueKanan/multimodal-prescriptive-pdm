@@ -22,10 +22,12 @@ COPY --from=builder /app/embedding_model ./embedding_model
 COPY . .
 RUN git lfs pull
 
-# --- NEW: Install and configure Ollama INSIDE the container ---
-RUN curl -fsSL https://ollama.com/install.sh | sh
-# Pre-pull the small model we will use for the demo
-RUN ollama pull gemma:2b
+# Install Ollama, start the server in the background, pull the model, and then stop the server.
+RUN curl -fsSL https://ollama.com/install.sh | sh && \
+    /bin/bash -c "ollama serve &" && \
+    sleep 5 && \
+    ollama pull gemma:2b && \
+    pkill ollama
 
 # Expose the application port
 EXPOSE 7860
