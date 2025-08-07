@@ -22,9 +22,9 @@ def create_rag_chain():
         logging.info("Initializing LLM for Hugging Face deployment.")
         repo_id = "google/flan-t5-large" # Use a classic, stable model
         llm = HuggingFaceEndpoint(
-            repo_id=repo_id, 
+            repo_id=repo_id,
             task="text2text-generation",
-            model_kwargs={"max_new_tokens": 512}
+            max_new_tokens=512
         )
         logging.info(f"Using Hugging Face Endpoint with model: {repo_id}")
     else:
