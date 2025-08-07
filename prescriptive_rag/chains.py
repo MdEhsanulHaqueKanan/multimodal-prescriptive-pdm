@@ -20,7 +20,7 @@ def create_rag_chain():
     if deployment_platform == "huggingface":
         logging.info("Initializing LLM for Hugging Face deployment.")
         repo_id = "google/flan-t5-large" # Use a classic, stable model
-        llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.3, "max_length": 512})
+        llm = HuggingFaceHub(repo_id=repo_id, task="text2text-generation", model_kwargs={"temperature": 0.3, "max_length": 512})
         logging.info(f"Using Hugging Face Hub with model: {repo_id}")
     else:
         # Local development code remains the same
