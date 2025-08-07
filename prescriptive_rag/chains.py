@@ -20,7 +20,7 @@ def create_rag_chain():
     
     if deployment_platform == "huggingface":
         logging.info("Initializing LLM for Hugging Face deployment.")
-        repo_id = "mistralai/Mistral-7B-Instruct-v0.2"
+        repo_id = "google/gemma-2b-it"
         llm = HuggingFaceEndpoint(repo_id=repo_id, temperature=0.3, max_new_tokens=512)
         logging.info(f"Using Hugging Face Endpoint with model: {repo_id}")
     else:
