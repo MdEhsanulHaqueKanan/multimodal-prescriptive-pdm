@@ -30,7 +30,5 @@ RUN ollama pull gemma:2b
 # Expose the application port
 EXPOSE 7860
 
-# --- NEW: Start script to run both Ollama and Gunicorn ---
-# We create a small script to start the Ollama server in the background
-# and then start our Gunicorn web server.
-CMD [ "/bin/bash", "-c", "ollama serve & sleep 5 && gunicorn --bind 0.0.0.0:7860 --timeout 300 run:app" ]
+# Start Ollama in the background, wait for it to be ready, then start Gunicorn
+CMD ["/bin/bash", "-c", "ollama serve & sleep 10 && gunicorn --bind 0.0.0.0:7860 --timeout 300 run:app"]
