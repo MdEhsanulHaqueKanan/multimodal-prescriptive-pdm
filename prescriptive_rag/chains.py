@@ -33,8 +33,9 @@ def create_rag_chain():
         logging.info("Initializing LLM for Hugging Face deployment using direct InferenceClient.")
         
         try:
-            # Create a client to talk to the Inference API directly
-            client = InferenceClient(model="google/flan-t5-large")
+            # Read the token from the environment secret
+            token = os.getenv("HF_TOKEN")
+            client = InferenceClient(model="google/flan-t5-large", token=token)
 
             def llm_call(input_dict: dict) -> str:
                 """ A custom function to format the prompt and call the HF API. """
