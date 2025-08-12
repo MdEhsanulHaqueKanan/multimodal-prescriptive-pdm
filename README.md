@@ -211,3 +211,27 @@ To set up and run this project with full GPU performance locally, follow these s
     <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
   </a>
 </p>
+
+---
+
+## Future Enhancements & Research Roadmap
+
+This project serves as a robust foundation for a fully autonomous and intelligent industrial maintenance system. The current MVP successfully demonstrates the core prescriptive RAG pipeline. Future work will focus on expanding the system's capabilities in the following key areas:
+
+*   **True Multimodality (Image & Audio Integration):**
+    *   Incorporate computer vision models to analyze images of part wear and corrosion from technician reports.
+    *   Integrate audio processing models to detect anomalies (e.g., specific bearing noises, motor whine) from real-time sensor streams.
+
+*   **Advanced Knowledge Representation (Knowledge Graphs):**
+    *   Implement a formal Knowledge Graph (e.g., using Neo4j) to explicitly map the complex relationships between assets, components, failure modes, and repair procedures. This will enable more sophisticated, multi-hop reasoning.
+
+*   **Agentic and Proactive Workflows:**
+    *   Develop an AI agent that can autonomously perform tasks, such as querying structured databases for inventory or past repair costs (SQL RAG).
+    *   Enable the agent to proactively suggest maintenance schedules or automatically generate work orders based on combined predictive and prescriptive insights.
+
+*   **Deeper Causal Analysis:**
+    *   Move beyond correlational XAI (like SHAP) by integrating Causal AI techniques to identify the true root causes of failures, leading to more effective and targeted maintenance interventions.
+
+*   **Real-time Data and Deployment:**
+    *   Integrate with live sensor data streams (e.g., via Kafka or MQTT) for continuous, real-time monitoring.
+    *   Build a full CI/CD pipeline to automate the testing, retraining, and deployment of all system components upon detection of significant model drift or the addition of new knowledge.
