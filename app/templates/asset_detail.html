@@ -41,20 +41,17 @@
         <article>
             <header><strong>Troubleshooting Assistant</strong></header>
             
-            <!-- Chat History now takes up its own full-width block -->
             <div id="chat-history" style="height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
                 <div class="ai-message">
                     <p>Hello! I am your AI assistant. Ask me anything about this asset based on our knowledge base.</p>
                 </div>
             </div>
 
-            <!-- New, Simplified Chat Input Structure -->
             <textarea id="chat-input" placeholder="Ask a question..." aria-label="Ask a question" rows="1"></textarea>
             <div>
                 <button id="send-chat-btn" aria-label="Send message">Send</button>
             </div>
             <small style="display: block;"><em>Press Enter or click Send to ask.</em></small>
-
         </article>
         
         <!-- ======================= ROW 4: HISTORICAL DATA ======================= -->
@@ -65,7 +62,9 @@
 
     </div> <!-- End of container -->
 
-    <!-- ======================= JAVASCRIPT LOGIC (No changes needed here) ======================= -->
+    <!-- ======================= JAVASCRIPT LOGIC ======================= -->
+
+    <!-- Chart Drawing Script -->
     <script>
         const historicalData = {{ historical_data | tojson }};
         if (historicalData && Object.keys(historicalData).length > 0 && historicalData.time_in_cycles) {
@@ -91,9 +90,11 @@
         }
     </script>
     
+    <!-- Live API Call Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const assetType = '{{ asset_type }}';
+            const assetId = '{{ asset_id }}'; // Get asset ID for logic
 
             function displayShapPlot(shapData) {
                 const shapContainer = document.getElementById('shap-plot-container');
@@ -152,10 +153,21 @@
             } else if (assetType === 'classification') {
                 document.getElementById('pred-rul').textContent = 'N/A'; 
                 
-                const currentMachineState = {
-                    "type": "L", "air_temperature": 301.5, "process_temperature": 310.8,
-                    "rotational_speed": 1422, "torque": 49.3, "tool_wear": 193
-                };
+                let currentMachineState;
+
+                // Use the correct hard-coded data based on the asset ID
+                if (assetId.includes('Milling Machine')) {
+                    currentMachineState = {
+                        "type": "L", "air_temperature": 302.5, "process_temperature": 311.8,
+                        "rotational_speed": 1390, "torque": 55.3, "tool_wear": 208
+                    };
+                } else { // Assume it's the Conveyor Belt
+                    currentMachineState = {
+                        "type": "M", "air_temperature": 300.1, "process_temperature": 309.7,
+                        "rotational_speed": 1550, "torque": 41.2, "tool_wear": 20
+                    };
+                }
+                
                 const apiPayload = { type: 'classification', data: [currentMachineState] };
 
                 fetch('/api/predict', {

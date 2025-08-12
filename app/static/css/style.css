@@ -49,9 +49,7 @@ h2 .pico-icon {
     margin-right: 0.5rem;
 }
 
-/* =================================== */
-/* === Topic Modeling Widget Styles === */
-/* =================================== */
+/* Topic Modeling Widget Styles */
 .topics-container {
     display: flex;
     flex-wrap: wrap;
@@ -73,45 +71,31 @@ h2 .pico-icon {
     padding-left: 1.2rem;
 }
 
-/* =================================== */
-/* === Chat Assistant Final Styles === */
-/* =================================== */
-
+/* Chat Assistant Final Styles */
 #chat-history {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
-
 .chat-message {
   padding: 10px 15px;
   border-radius: 15px;
   max-width: 80%;
   word-wrap: break-word;
 }
-
-.user-message p {
-  color: white; /* Apply the color directly to the paragraph inside */
-}
-
+.user-message p { color: white; }
 .user-message {
-  background-color: #005A9E; /* A better, more professional blue */
+  background-color: #005A9E;
   align-self: flex-end;
   border-bottom-right-radius: 0;
 }
-
 .ai-message {
   background-color: #e9ecef;
   color: #333;
   align-self: flex-start;
   border-bottom-left-radius: 0;
 }
-
-.loading-message {
-    font-style: italic;
-    color: #888;
-}
-
+.loading-message { font-style: italic; color: #888; }
 #chat-input {
     width: 100%;
     resize: none;
@@ -120,19 +104,13 @@ h2 .pico-icon {
     min-height: 3rem;
     margin-bottom: 0.5rem;
 }
-
-#send-chat-btn {
-    width: 120px;
-}
-
-/* --- HITL Feedback Button Styling --- */
+#send-chat-btn { width: 120px; }
 .feedback-container {
     margin-top: 8px;
     display: flex;
     justify-content: flex-end;
     gap: 5px;
 }
-
 .feedback-btn {
     background: none;
     border: 1px solid #ccc;
@@ -144,13 +122,16 @@ h2 .pico-icon {
     line-height: 1;
     padding: 0;
 }
-
-.feedback-btn:hover {
-    background-color: #f0f0f0;
-}
-
+.feedback-btn:hover { background-color: #f0f0f0; }
 .feedback-btn:disabled {
     background-color: #e9ecef;
     cursor: default;
     opacity: 0.5;
+}
+
+/* --- DASHBOARD GRID LAYOUT --- */
+.grid-3-col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--pico-spacing);
 }

@@ -11,40 +11,70 @@ import pandas as pd
 import app_config as config
 import logging
 
-# Load Data on App Start (only data, not models)
-try:
-    rul_df_processed = pd.read_csv(config.PROCESSED_DATA_DIR / "rul_processed_data.csv")
-except FileNotFoundError:
-    rul_df_processed = None
-    logging.warning("RUL processed data not found. Dashboard for RUL assets will be affected.")
-
 # --- Main Application Routes ---
 
 @app.route('/healthz')
 def healthz():
-    """Simple health check endpoint for Render."""
+    """Simple health check endpoint for cloud platforms."""
     return "OK", 200
 
 @app.route('/')
 @app.route('/dashboard')
 def dashboard():
-    dashboard_data = get_dashboard_data(rul_df_processed)
-    return render_template('dashboard.html', title='Dashboard', assets=dashboard_data.get('assets', []), topics=dashboard_data.get('topics', []))
+    """
+    Renders the main dashboard page.
+    It now loads the RUL data on-demand for robustness.
+    """
+    # Load the RUL data right when we need it
+    try:
+        rul_df = pd.read_csv(config.PROCESSED_DATA_DIR / "rul_processed_data.csv")
+    except FileNotFoundError:
+        rul_df = None
+        logging.warning("RUL processed data not found. Dashboard for RUL assets will be affected.")
+    
+    # Pass the newly loaded dataframe to the utility function
+    dashboard_data = get_dashboard_data(rul_df)
+    
+    return render_template(
+        'dashboard.html', 
+        title='Dashboard', 
+        assets=dashboard_data.get('assets', []), 
+        topics=dashboard_data.get('topics', [])
+    )
 
 @app.route('/asset/<asset_id>')
 def asset_detail(asset_id):
+    """
+    Renders the detail page for a specific asset.
+    It now loads the RUL data on-demand for robustness.
+    """
     if 'Turbofan' in asset_id:
         asset_type = 'rul'
-        try: unit_number = int(asset_id.split('#')[-1])
-        except (ValueError, IndexError): return "Invalid Turbofan ID format", 404
-        if rul_df_processed is not None:
-            asset_history_df = rul_df_processed[rul_df_processed['unit_number'] == unit_number].copy()
-            historical_data_json = asset_history_df.to_dict(orient='list')
-        else: historical_data_json = {}
+        historical_data_json = {} # Default to empty
+        try: 
+            unit_number = int(asset_id.split('#')[-1])
+            # Load the RUL data right when we need it for a specific asset
+            rul_df = pd.read_csv(config.PROCESSED_DATA_DIR / "rul_processed_data.csv")
+            asset_history_df = rul_df[rul_df['unit_number'] == unit_number].copy()
+            if not asset_history_df.empty:
+                historical_data_json = asset_history_df.to_dict(orient='list')
+        except (ValueError, IndexError): 
+            return "Invalid Turbofan ID format", 404
+        except FileNotFoundError:
+             logging.warning("RUL processed data file not found when trying to load asset detail.")
+        
     elif 'Machine' in asset_id or 'Conveyor' in asset_id:
         asset_type, historical_data_json = 'classification', {}
-    else: return "Unknown Asset Type", 404
-    return render_template('asset_detail.html', title=f"Asset: {asset_id}", asset_id=asset_id, asset_type=asset_type, historical_data=historical_data_json)
+    else: 
+        return "Unknown Asset Type", 404
+        
+    return render_template(
+        'asset_detail.html', 
+        title=f"Asset: {asset_id}", 
+        asset_id=asset_id, 
+        asset_type=asset_type, 
+        historical_data=historical_data_json
+    )
 
 @app.route('/model-monitor')
 def model_monitor():

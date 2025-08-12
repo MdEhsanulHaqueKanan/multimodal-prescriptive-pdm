@@ -1,31 +1,56 @@
-{% extends "layout.html" %}
+{% extends "layouts/base.html" %}
 
 {% block content %}
-    <article>
-        <header>
-            <h1>About This Project</h1>
-        </header>
-        
-        <h2>Robust and Interpretable Predictive Maintenance for Evolving Industrial Systems</h2>
-        
-        <p>
-            This is an independent research and development project by <strong>Md. Ehsanul Haque Kanan</strong>, created to showcase an end-to-end, industry-standard approach to predictive maintenance. 
-        </p>
+    <div class="container">
+        <article>
+            <header>
+                <h1>About This Project</h1>
+            </header>
 
-        <h3>Core Objectives:</h3>
-        <ul>
-            <li><strong>Predictive Power:</strong> To accurately predict both Remaining Useful Life (RUL) for degrading systems and specific fault types for event-based failures.</li>
-            <li><strong>Interpretability (XAI):</strong> To move beyond "black box" models by providing clear, human-understandable explanations for each prediction using SHAP (SHapley Additive exPlanations).</li>
-            <li><strong>Robustness & Adaptivity:</strong> To demonstrate how a system can monitor model performance and detect concept drift, which is critical for real-world deployment in "evolving" industrial environments.</li>
-        </ul>
-        
-        <h3>Technology Stack:</h3>
-        <ul>
-            <li><strong>Backend:</strong> Python, Flask</li>
-            <li><strong>Machine Learning:</strong> Scikit-learn, XGBoost, LightGBM, SHAP, Imbalanced-learn</li>
-            <li><strong>Data Handling:</strong> Pandas, NumPy</li>
-            <li><strong>Frontend:</strong> HTML, Pico.css, Plotly.js</li>
-            <li><strong>Deployment:</strong> Docker (to be implemented)</li>
-        </ul>
-    </article>
+            <h2>Multimodal Knowledge-Enhanced Prescriptive Maintenance with Explainable AI and Adaptive RAG</h2>
+
+            <p>
+                This is an advanced independent research and development project by <strong>Md. Ehsanul Haque Kanan</strong>. It demonstrates an end-to-end, intelligent system for <strong>Prescriptive Maintenance (PdM)</strong>, evolving beyond traditional predictive models by integrating a sophisticated Retrieval-Augmented Generation (RAG) pipeline.
+            </p>
+            <p>
+                The system moves from simply predicting <em>when</em> an asset might fail to prescribing <em>how to fix it</em>, using a conversational AI assistant grounded in a custom knowledge base of technical manuals and maintenance logs.
+            </p>
+
+            <hr>
+
+            <h3>Core Objectives:</h3>
+            <ul>
+                <li>
+                    <strong>Prescriptive Power:</strong> To move beyond prediction by using a RAG pipeline and a Large Language Model (LLM) to provide technicians with actionable, step-by-step guidance for diagnostics and repairs.
+                </li>
+                <li>
+                    <strong>Conversational AI:</strong> To enable users to interact with the system using natural language. <strong>The "Troubleshooting Assistant" on each asset's detail page serves as the direct interface to the dynamic knowledge base,</strong> allowing users to ask complex questions and receive precise, context-aware answers.
+                </li>
+                <li>
+                    <strong>Knowledge-Enhanced Decisions:</strong> To create a dynamic knowledge base from unstructured text (manuals, logs) using a vector database (ChromaDB), enhancing the AI's reasoning capabilities.
+                </li>
+                <li>
+                    <strong>Adaptivity (Human-in-the-Loop):</strong> To build a system designed for continuous learning by capturing user feedback on AI-generated responses, creating a path for future model fine-tuning.
+                </li>
+                <li>
+                    <strong>Explainable AI (XAI):</strong> To maintain trust by using SHAP to provide clear, human-understandable explanations for the underlying predictive models (RUL and Fault Classification).
+                </li>
+                <li>
+                    <strong>End-to-End MLOps:</strong> To demonstrate a complete, production-ready workflow, from data ingestion and model training to a containerized (Docker) web application.
+                </li>
+            </ul>
+
+            <hr>
+
+            <h3>Technology Stack:</h3>
+            <ul>
+                <li><strong>Backend:</strong> Python, Flask, Gunicorn</li>
+                <li><strong>LLM & RAG:</strong> LangChain, Ollama, ChromaDB, Sentence-Transformers</li>
+                <li><strong>Machine Learning & NLP:</strong> Scikit-learn, XGBoost, LightGBM, SHAP, NLTK</li>
+                <li><strong>Data Handling:</strong> Pandas, NumPy</li>
+                <li><strong>Frontend:</strong> HTML, Pico.css, Plotly.js, JavaScript</li>
+                <li><strong>Containerization:</strong> Docker</li>
+            </ul>
+        </article>
+    </div>
 {% endblock %}

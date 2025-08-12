@@ -8,52 +8,66 @@ from langchain.schema.runnable import RunnablePassthrough
 from langchain.schema.output_parser import StrOutputParser
 import app_config as config
 
+# --- Configuration ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def create_rag_chain():
+    """
+    Creates and returns the RAG chain configured for local development.
+    """
+    logging.info("Creating the RAG chain for local execution...")
+
+    # 1. Initialize the components
     embedding_model = HuggingFaceEmbeddings(model_name="./embedding_model")
-    vector_store = Chroma(persist_directory=str(config.DB_PATH), embedding_function=embedding_model)
+    
+    vector_store = Chroma(
+        persist_directory=str(config.DB_PATH), 
+        embedding_function=embedding_model
+    )
+    
     retriever = vector_store.as_retriever(search_kwargs={"k": 3})
-    
-    # --- NEW: Always use Ollama, but the URL and model change for deployment ---
-    deployment_platform = os.getenv("DEPLOYMENT_PLATFORM", "local")
-    
-    if deployment_platform == "huggingface":
-        # When deployed, Ollama runs in the same container.
-        llm_model_name = "gemma:2b"
-        base_url = "http://127.0.0.1:11434"
-        logging.info(f"Using containerized Ollama with model: {llm_model_name}")
-    else:
-        # For local Docker, connect to the host machine's Ollama
-        llm_model_name = os.getenv("LLM_MODEL_NAME", "llama3:8b")
-        base_url = "http://host.docker.internal:11434"
-        logging.info(f"Using host Ollama with model: {llm_model_name}")
+
+    # --- Use Local Ollama Server ---
+    # This connects to the Ollama app running on your main PC.
+    llm_model_name = os.getenv("LLM_MODEL_NAME", "llama3:8b")
+    base_url = "http://localhost:11434"
     
     try:
         llm = Ollama(model=llm_model_name, base_url=base_url)
+        logging.info(f"Connecting to local Ollama with model: {llm_model_name} at {base_url}")
     except Exception as e:
         logging.error(f"Failed to initialize Ollama: {e}", exc_info=True)
         return None
 
+    # 2. Define the Prompt Template
     prompt_template_str = """
-    Answer the question based only on the following context.
-    Context: {context}
-    Question: {question}
-    Answer:
+    You are an expert maintenance assistant. Your task is to provide clear, accurate, and helpful answers based exclusively on the following context.
+    If the context does not contain the answer to the question, state clearly that you cannot answer with the provided information. 
+    Do not make up information or use any external knowledge.
+
+    CONTEXT:
+    {context}
+
+    QUESTION:
+    {question}
+
+    ANSWER:
     """
     prompt = PromptTemplate.from_template(prompt_template_str)
+
+    # 3. Build the RAG Chain
     rag_chain = (
         {"context": retriever, "question": RunnablePassthrough()}
         | prompt
         | llm
         | StrOutputParser()
     )
+
     logging.info("RAG chain created successfully.")
     return rag_chain
 
-
+# --- Execution Block for Testing ---
 if __name__ == '__main__':
-    # This block remains for local testing
     print("--- Testing the RAG Chain (Local Ollama Mode) ---")
     try:
         chain = create_rag_chain()

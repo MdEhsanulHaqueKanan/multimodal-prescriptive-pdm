@@ -38,3 +38,14 @@ This procedure is critical when RUL predictions are low or when fault code P0301
   2.  Inspect spark plugs for wear and tear. Replace if necessary.
   3.  Perform a fuel pressure test. The system should maintain a pressure of 400-450 kPa.
   4.  If the issue persists, connect the diagnostic tool to check the fuel injector signal for each cylinder.
+### 5.2: Error Code P0420 - Overstrain Failure
+- **Description:** This code is triggered when the system detects torque and rotational speed values that exceed the component's design limits for a sustained period. This is often associated with the "Overstrain Failure" prediction.
+- **Common Causes:**
+  - Incorrect operational parameters (e.g., tool feed rate too high).
+  - Use of dull or improper tooling.
+  - Mechanical obstruction or jam in the system.
+- **Troubleshooting Steps:**
+  1.  **Immediate Action:** Reduce the load on the machine and bring it to a safe stop.
+  2.  Review the operational parameters for the last 100 cycles to identify any settings that exceed the recommended limits for the material being processed.
+  3.  Inspect the tool for wear or damage. Replace if the tool wear value is above 200 minutes.
+  4.  Check for any physical obstructions in the machine's path of operation.
