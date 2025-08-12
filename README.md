@@ -202,18 +202,6 @@ To set up and run this project with full GPU performance locally, follow these s
 
 ---
 
-## Developed by
-
-**Md. Ehsanul Haque Kanan**
-
-<p align="left">
-  <a href="https://www.linkedin.com/in/ehsanulhaquekanan/">
-    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
-  </a>
-</p>
-
----
-
 ## Future Enhancements & Research Roadmap
 
 This project serves as a robust foundation for a fully autonomous and intelligent industrial maintenance system. The current MVP successfully demonstrates the core prescriptive RAG pipeline. Future work will focus on expanding the system's capabilities in the following key areas:
@@ -235,3 +223,15 @@ This project serves as a robust foundation for a fully autonomous and intelligen
 *   **Real-time Data and Deployment:**
     *   Integrate with live sensor data streams (e.g., via Kafka or MQTT) for continuous, real-time monitoring.
     *   Build a full CI/CD pipeline to automate the testing, retraining, and deployment of all system components upon detection of significant model drift or the addition of new knowledge.
+
+---
+
+## Developed by
+
+**Md. Ehsanul Haque Kanan**
+
+<p align="left">
+  <a href="https://www.linkedin.com/in/ehsanulhaquekanan/">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
+  </a>
+</p>
